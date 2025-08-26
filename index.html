@@ -510,11 +510,11 @@
             <div class="summary-cards">
                 <div class="card">
                     <h3>總支出</h3>
-                    <div class="amount" id="totalAmount">¥0.00</div>
+                    <div class="amount" id="totalAmount">$0.00</div>
                 </div>
                 <div class="card">
                     <h3>待結算</h3>
-                    <div class="amount" id="pendingAmount">¥0.00</div>
+                    <div class="amount" id="pendingAmount">$0.00</div>
                     <div class="settlement-details" id="settlementDetails">
                         <!-- 結算詳情將通過JavaScript動態生成 -->
                     </div>
@@ -564,7 +564,7 @@
                         <input type="text" id="newItemName" class="form-input" placeholder="例如：機票、酒店等">
                     </div>
                     <div class="form-group">
-                        <label for="newItemAmount">總金額 (¥)</label>
+                        <label for="newItemAmount">總金額 ($)</label>
                         <input type="number" id="newItemAmount" class="form-input" placeholder="0.00" step="0.01">
                     </div>
                     <div class="form-group">
@@ -583,7 +583,7 @@
                 </div>
                 
                 <div id="customSplitSection" style="display: none;">
-                    <label>為每位參與者指定金額 (¥)</label>
+                    <label>為每位參與者指定金額 ($)</label>
                     <div id="customSplitContainer" class="split-grid">
                         <!-- 自定義分攤輸入框將通過JavaScript動態生成 -->
                     </div>
@@ -631,7 +631,7 @@
                     <input type="text" id="editItemName" class="form-input">
                 </div>
                 <div class="form-group">
-                    <label for="editItemAmount">總金額 (¥)</label>
+                    <label for="editItemAmount">總金額 ($)</label>
                     <input type="number" id="editItemAmount" class="form-input" step="0.01">
                 </div>
                 <div class="form-group">
@@ -648,7 +648,7 @@
             </div>
             
             <div id="editCustomSplitSection" style="display: none; margin-top: 15px;">
-                <label>為每位參與者指定金額 (¥)</label>
+                <label>為每位參與者指定金額 ($)</label>
                 <div id="editCustomSplitContainer" class="split-grid">
                     <!-- 自定義分攤輸入框將通過JavaScript動態生成 -->
                 </div>
@@ -796,14 +796,14 @@
                 const amountCell = document.createElement('td');
                 amountCell.className = 'currency-column';
                 const amount = expense?.totalAmount ?? 0;
-                amountCell.innerHTML = `<strong>¥${amount.toFixed(2)}</strong>`;
+                amountCell.innerHTML = `<strong>$${amount.toFixed(2)}</strong>`;
                 row.appendChild(amountCell);
                 
                 // 分攤詳情列
                 const splitsCell = document.createElement('td');
                 const splits = expense.splits || {};
                 splitsCell.innerHTML = Object.entries(splits)
-                    .map(([person, amount]) => `${person}: ¥${(amount || 0).toFixed(2)}`)
+                    .map(([person, amount]) => `${person}: $${(amount || 0).toFixed(2)}`)
                     .join('<br>') || '未設置分攤';
                 row.appendChild(splitsCell);
                 
@@ -1111,14 +1111,14 @@
             
             Object.entries(settlements).forEach(([person, data]) => {
                 if (data.balance > 0) {
-                    detailsHTML += `<div class="settlement-item"><span>${person} 應收:</span> <span class="settlement-positive">¥${data.balance.toFixed(2)}</span></div>`;
+                    detailsHTML += `<div class="settlement-item"><span>${person} 應收:</span> <span class="settlement-positive">$${data.balance.toFixed(2)}</span></div>`;
                     totalPending += data.balance;
                 } else if (data.balance < 0) {
-                    detailsHTML += `<div class="settlement-item"><span>${person} 應付:</span> <span class="settlement-negative">¥${Math.abs(data.balance).toFixed(2)}</span></div>`;
+                    detailsHTML += `<div class="settlement-item"><span>${person} 應付:</span> <span class="settlement-negative">$${Math.abs(data.balance).toFixed(2)}</span></div>`;
                 }
             });
             
-            pendingAmountElement.textContent = `¥${totalPending.toFixed(2)}`;
+            pendingAmountElement.textContent = `$${totalPending.toFixed(2)}`;
             settlementDetails.innerHTML = detailsHTML || '<div class="settlement-item">無需結算</div>';
         }
 
@@ -1136,20 +1136,20 @@
                 
                 // 應付總額列
                 const shouldPayCell = document.createElement('td');
-                shouldPayCell.textContent = `¥${data.shouldPay.toFixed(2)}`;
+                shouldPayCell.textContent = `$${data.shouldPay.toFixed(2)}`;
                 row.appendChild(shouldPayCell);
                 
                 // 已付總額列
                 const paidCell = document.createElement('td');
-                paidCell.textContent = `¥${data.paid.toFixed(2)}`;
+                paidCell.textContent = `$${data.paid.toFixed(2)}`;
                 row.appendChild(paidCell);
                 
                 // 結算金額列
                 const balanceCell = document.createElement('td');
                 if (data.balance > 0) {
-                    balanceCell.innerHTML = `<span class="settlement-positive">應收 ¥${data.balance.toFixed(2)}</span>`;
+                    balanceCell.innerHTML = `<span class="settlement-positive">應收 $${data.balance.toFixed(2)}</span>`;
                 } else if (data.balance < 0) {
-                    balanceCell.innerHTML = `<span class="settlement-negative">應付 ¥${Math.abs(data.balance).toFixed(2)}</span>`;
+                    balanceCell.innerHTML = `<span class="settlement-negative">應付 $${Math.abs(data.balance).toFixed(2)}</span>`;
                 } else {
                     balanceCell.textContent = '已結清';
                 }
@@ -1163,7 +1163,7 @@
         function updateSummary() {
             // 計算總支出
             const total = expenses.reduce((sum, expense) => sum + expense.totalAmount, 0);
-            totalAmountElement.textContent = `¥${total.toFixed(2)}`;
+            totalAmountElement.textContent = `$${total.toFixed(2)}`;
             
             // 更新參與人數
             participantsCountElement.textContent = `${participants.length}人`;
