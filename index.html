@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>账单分摊应用</title>
+    <title>賬單分攤應用</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -62,7 +62,7 @@
             transform: translateY(-2px);
         }
         
-        /* 页面容器 */
+        /* 頁面容器 */
         .page {
             display: none;
             padding: 20px;
@@ -72,7 +72,7 @@
             display: block;
         }
         
-        /* 主页样式 */
+        /* 主頁樣式 */
         .summary-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -258,7 +258,7 @@
             box-shadow: 0 4px 12px rgba(75, 108, 183, 0.3);
         }
         
-        /* 设置页面样式 */
+        /* 設置頁面樣式 */
         .settings-container {
             background: white;
             padding: 20px;
@@ -346,7 +346,7 @@
             box-shadow: 0 4px 12px rgba(75, 108, 183, 0.3);
         }
         
-        /* 结算表格样式 */
+        /* 結算表格樣式 */
         .settlement-table {
             width: 100%;
             border-collapse: collapse;
@@ -383,7 +383,7 @@
             font-weight: 500;
         }
         
-        /* 响应式设计 */
+        /* 響應式設計 */
         @media (max-width: 768px) {
             .form-grid {
                 grid-template-columns: 1fr;
@@ -416,7 +416,7 @@
             }
         }
         
-        /* 模态框样式 */
+        /* 模態框樣式 */
         .modal {
             display: none;
             position: fixed;
@@ -446,6 +446,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            position: relative;
         }
         
         .close-modal {
@@ -454,9 +455,12 @@
             font-size: 24px;
             cursor: pointer;
             color: #6c757d;
+            position: absolute;
+            top: -10px;
+            right: -10px;
         }
         
-        /* 动画效果 */
+        /* 動畫效果 */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -476,134 +480,134 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-receipt"></i> 账单分摊应用</h1>
+            <h1><i class="fas fa-receipt"></i> 賬單分攤應用</h1>
             <button id="settingsBtn" class="nav-button">
-                <i class="fas fa-cog"></i> 设置
+                <i class="fas fa-cog"></i> 設置
             </button>
         </header>
 
-        <!-- 主页/表格页面 -->
+        <!-- 主頁/表格頁面 -->
         <div id="mainPage" class="page active">
             <div class="summary-cards">
                 <div class="card">
-                    <h3>总支出</h3>
+                    <h3>總支出</h3>
                     <div class="amount" id="totalAmount">¥0.00</div>
                 </div>
                 <div class="card">
-                    <h3>待结算</h3>
+                    <h3>待結算</h3>
                     <div class="amount" id="pendingAmount">¥0.00</div>
                     <div class="settlement-details" id="settlementDetails">
-                        <!-- 结算详情将通过JavaScript动态生成 -->
+                        <!-- 結算詳情將通過JavaScript動態生成 -->
                     </div>
                 </div>
                 <div class="card">
-                    <h3>参与人数</h3>
+                    <h3>參與人數</h3>
                     <div class="amount" id="participantsCount">0人</div>
                 </div>
             </div>
 
-            <h3><i class="fas fa-money-bill-wave"></i> 结算详情</h3>
+            <h3><i class="fas fa-money-bill-wave"></i> 結算詳情</h3>
             <table class="settlement-table">
                 <thead>
                     <tr>
-                        <th>参与者</th>
-                        <th>应付总额</th>
-                        <th>已付总额</th>
-                        <th>结算金额</th>
+                        <th>參與者</th>
+                        <th>應付總額</th>
+                        <th>已付總額</th>
+                        <th>結算金額</th>
                     </tr>
                 </thead>
                 <tbody id="settlementTableBody">
-                    <!-- 结算表格内容将通过JavaScript动态生成 -->
+                    <!-- 結算表格內容將通過JavaScript動態生成 -->
                 </tbody>
             </table>
 
-            <h3><i class="fas fa-list"></i> 账单明细</h3>
+            <h3><i class="fas fa-list"></i> 賬單明細</h3>
             <table class="expense-table">
                 <thead>
                     <tr>
-                        <th>项目</th>
-                        <th>总金额</th>
-                        <th>分摊详情</th>
+                        <th>項目</th>
+                        <th>總金額</th>
+                        <th>分攤詳情</th>
                         <th>支付者</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody id="expenseTableBody">
-                    <!-- 表格内容将通过JavaScript动态生成 -->
+                    <!-- 表格內容將通過JavaScript動態生成 -->
                 </tbody>
             </table>
 
             <div class="add-item-form">
-                <h2><i class="fas fa-plus-circle"></i> 添加新项目</h2>
+                <h2><i class="fas fa-plus-circle"></i> 添加新項目</h2>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="newItemName">项目名称</label>
-                        <input type="text" id="newItemName" class="form-input" placeholder="例如：机票、酒店等">
+                        <label for="newItemName">項目名稱</label>
+                        <input type="text" id="newItemName" class="form-input" placeholder="例如：機票、酒店等">
                     </div>
                     <div class="form-group">
-                        <label for="newItemAmount">总金额 (¥)</label>
+                        <label for="newItemAmount">總金額 (¥)</label>
                         <input type="number" id="newItemAmount" class="form-input" placeholder="0.00" step="0.01">
                     </div>
                     <div class="form-group">
                         <label for="newItemPayer">支付者</label>
                         <select id="newItemPayer" class="form-input">
-                            <!-- 支付者选项将通过JavaScript动态生成 -->
+                            <!-- 支付者選項將通過JavaScript動態生成 -->
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>分摊方式</label>
+                        <label>分攤方式</label>
                         <select id="splitMethod" class="form-input">
-                            <option value="equal">平均分摊</option>
-                            <option value="custom">自定义金额</option>
+                            <option value="equal">平均分攤</option>
+                            <option value="custom">自定義金額</option>
                         </select>
                     </div>
                 </div>
                 
                 <div id="customSplitSection" style="display: none;">
-                    <label>为每位参与者指定金额 (¥)</label>
+                    <label>為每位參與者指定金額 (¥)</label>
                     <div id="customSplitContainer" class="split-grid">
-                        <!-- 自定义分摊输入框将通过JavaScript动态生成 -->
+                        <!-- 自定義分攤輸入框將通過JavaScript動態生成 -->
                     </div>
                 </div>
                 
-                <button id="addItemBtn" class="add-item-btn">添加项目</button>
+                <button id="addItemBtn" class="add-item-btn">添加項目</button>
             </div>
         </div>
 
-        <!-- 设置页面 -->
+        <!-- 設置頁面 -->
         <div id="settingsPage" class="page">
             <div class="settings-container">
-                <h2><i class="fas fa-users"></i> 设置参与人员</h2>
+                <h2><i class="fas fa-users"></i> 設置參與人員</h2>
                 <div id="participantsList" class="participants-list">
-                    <!-- 参与人员列表将通过JavaScript动态生成 -->
+                    <!-- 參與人員列表將通過JavaScript動態生成 -->
                 </div>
                 <button id="addParticipantBtn" class="add-participant">
-                    <i class="fas fa-plus"></i> 添加人员
+                    <i class="fas fa-plus"></i> 添加人員
                 </button>
                 <div class="settings-buttons">
                     <button id="returnBtn" class="return-button">
                         <i class="fas fa-arrow-left"></i> 返回
                     </button>
-                    <button id="saveSettingsBtn" class="save-settings">保存设置</button>
+                    <button id="saveSettingsBtn" class="save-settings">保存設置</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 编辑项目模态框 -->
+    <!-- 編輯項目模態框 -->
     <div id="editModal" class="modal">
         <div class="modal-content fade-in">
             <div class="modal-header">
-                <h2>编辑项目</h2>
+                <h2>編輯項目</h2>
                 <button class="close-modal">&times;</button>
             </div>
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="editItemName">项目名称</label>
+                    <label for="editItemName">項目名稱</label>
                     <input type="text" id="editItemName" class="form-input">
                 </div>
                 <div class="form-group">
-                    <label for="editItemAmount">总金额 (¥)</label>
+                    <label for="editItemAmount">總金額 (¥)</label>
                     <input type="number" id="editItemAmount" class="form-input" step="0.01">
                 </div>
                 <div class="form-group">
@@ -611,18 +615,18 @@
                     <select id="editItemPayer" class="form-input"></select>
                 </div>
                 <div class="form-group">
-                    <label>分摊方式</label>
+                    <label>分攤方式</label>
                     <select id="editSplitMethod" class="form-input">
-                        <option value="equal">平均分摊</option>
-                        <option value="custom">自定义金额</option>
+                        <option value="equal">平均分攤</option>
+                        <option value="custom">自定義金額</option>
                     </select>
                 </div>
             </div>
             
             <div id="editCustomSplitSection" style="display: none; margin-top: 15px;">
-                <label>为每位参与者指定金额 (¥)</label>
+                <label>為每位參與者指定金額 (¥)</label>
                 <div id="editCustomSplitContainer" class="split-grid">
-                    <!-- 自定义分摊输入框将通过JavaScript动态生成 -->
+                    <!-- 自定義分攤輸入框將通過JavaScript動態生成 -->
                 </div>
             </div>
             
@@ -631,7 +635,7 @@
     </div>
 
     <script>
-        // 初始数据
+        // 初始數據
         let participants = ['A', 'B', 'C', 'D'];
         let expenses = [];
 
@@ -667,7 +671,7 @@
 
         let currentEditIndex = -1;
 
-        // 初始化页面
+        // 初始化頁面
         document.addEventListener('DOMContentLoaded', () => {
             loadFromLocalStorage();
             renderExpenseTable();
@@ -675,7 +679,7 @@
             updatePayerDropdown();
             updateSummary();
             
-            // 事件监听
+            // 事件監聽
             settingsBtn.addEventListener('click', showSettingsPage);
             document.getElementById('returnBtn').addEventListener('click', () => {
                 settingsPage.classList.remove('active');
@@ -689,7 +693,7 @@
             saveEditBtn.addEventListener('click', saveEdit);
             editSplitMethod.addEventListener('change', toggleEditCustomSplitSection);
             
-            // 点击模态框外部关闭
+            // 點擊模態框外部關閉
             window.addEventListener('click', (e) => {
                 if (e.target === editModal) {
                     closeModal();
@@ -697,14 +701,14 @@
             });
         });
 
-        // 显示设置页面
+        // 顯示設置頁面
         function showSettingsPage() {
             mainPage.classList.remove('active');
             settingsPage.classList.add('active');
             renderParticipantsSettings();
         }
 
-        // 渲染参与人员设置
+        // 渲染參與人員設置
         function renderParticipantsSettings() {
             participantsList.innerHTML = '';
             participants.forEach((participant, index) => {
@@ -719,7 +723,7 @@
                 participantsList.appendChild(participantDiv);
             });
             
-            // 添加移除参与者的监听事件
+            // 添加移除參與者的監聽事件
             document.querySelectorAll('.remove-participant').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const index = parseInt(e.target.closest('.remove-participant').getAttribute('data-index'));
@@ -729,13 +733,13 @@
             });
         }
 
-        // 添加参与者字段
+        // 添加參與者字段
         function addParticipantField() {
-            participants.push('新成员');
+            participants.push('新成員');
             renderParticipantsSettings();
         }
 
-        // 保存设置
+        // 保存設置
         function saveSettings() {
             const inputs = document.querySelectorAll('.participant-input');
             participants = Array.from(inputs).map(input => input.value.trim()).filter(name => name !== '');
@@ -743,7 +747,7 @@
             saveToLocalStorage();
             updatePayerDropdown();
             
-            // 返回主页
+            // 返回主頁
             settingsPage.classList.remove('active');
             mainPage.classList.add('active');
             
@@ -752,31 +756,31 @@
             updateSummary();
         }
 
-        // 渲染费用表格
+        // 渲染費用表格
         function renderExpenseTable() {
             expenseTableBody.innerHTML = '';
             
             expenses.forEach((expense, index) => {
                 const row = document.createElement('tr');
                 
-                // 项目列
+                // 項目列
                 const itemCell = document.createElement('td');
                 itemCell.textContent = expense.item;
                 row.appendChild(itemCell);
                 
-                // 金额列
+                // 金額列
                 const amountCell = document.createElement('td');
                 amountCell.className = 'currency-column';
                 const amount = expense?.totalAmount ?? 0;
                 amountCell.innerHTML = `<strong>¥${amount.toFixed(2)}</strong>`;
                 row.appendChild(amountCell);
                 
-                // 分摊详情列
+                // 分攤詳情列
                 const splitsCell = document.createElement('td');
                 const splits = expense.splits || {};
                 splitsCell.innerHTML = Object.entries(splits)
                     .map(([person, amount]) => `${person}: ¥${(amount || 0).toFixed(2)}`)
-                    .join('<br>') || '未设置分摊';
+                    .join('<br>') || '未設置分攤';
                 row.appendChild(splitsCell);
                 
                 // 支付者列
@@ -801,7 +805,7 @@
                 expenseTableBody.appendChild(row);
             });
             
-            // 添加编辑和删除事件监听
+            // 添加編輯和刪除事件監聽
             document.querySelectorAll('.edit-item').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const index = parseInt(e.target.closest('.edit-item').getAttribute('data-index'));
@@ -817,7 +821,7 @@
             });
         }
 
-        // 更新支付者下拉选项
+        // 更新支付者下拉選項
         function updatePayerDropdown() {
             newItemPayer.innerHTML = '';
             editItemPayer.innerHTML = '';
@@ -833,7 +837,7 @@
             });
         }
 
-        // 切换自定义分摊部分显示
+        // 切換自定義分攤部分顯示
         function toggleCustomSplitSection() {
             if (splitMethod.value === 'custom') {
                 customSplitSection.style.display = 'block';
@@ -851,7 +855,7 @@
             }
         }
 
-        // 渲染自定义分摊输入框
+        // 渲染自定義分攤輸入框
         function renderCustomSplitInputs() {
             customSplitContainer.innerHTML = '';
             
@@ -867,7 +871,7 @@
             });
         }
         
-        // 渲染编辑自定义分摊输入框
+        // 渲染編輯自定義分攤輸入框
         function renderEditCustomSplitInputs(splits) {
             editCustomSplitContainer.innerHTML = '';
             
@@ -884,7 +888,7 @@
             });
         }
 
-        // 添加新费用
+        // 添加新費用
         function addNewExpense() {
             const itemName = newItemName.value.trim();
             const totalAmount = parseFloat(newItemAmount.value);
@@ -894,10 +898,10 @@
                 let splits = {};
                 
                 if (splitMethod.value === 'equal') {
-                    // 平均分摊
+                    // 平均分攤
                     const perPerson = totalAmount / participants.length;
                     participants.forEach((participant, index) => {
-                        // 处理小数点精度问题，最后一个人承担余数
+                        // 處理小數點精度問題，最後一個人承擔餘數
                         if (index === participants.length - 1) {
                             splits[participant] = totalAmount - (perPerson * (participants.length - 1));
                         } else {
@@ -905,7 +909,7 @@
                         }
                     });
                 } else {
-                    // 自定义分摊
+                    // 自定義分攤
                     const inputs = document.querySelectorAll('.custom-split-input');
                     let customTotal = 0;
                     
@@ -916,9 +920,9 @@
                         customTotal += amount;
                     });
                     
-                    // 检查自定义金额总和是否等于总金额
+                    // 檢查自定義金額總和是否等於總金額
                     if (Math.abs(customTotal - totalAmount) > 0.01) {
-                        alert(`自定义分摊金额总和 (${customTotal.toFixed(2)}) 与总金额 (${totalAmount.toFixed(2)}) 不一致！`);
+                        alert(`自定義分攤金額總和 (${customTotal.toFixed(2)}) 與總金額 (${totalAmount.toFixed(2)}) 不一致！`);
                         return;
                     }
                 }
@@ -934,17 +938,17 @@
                 renderExpenseTable();
                 updateSummary();
                 
-                // 清空输入框
+                // 清空輸入框
                 newItemName.value = '';
                 newItemAmount.value = '';
                 splitMethod.value = 'equal';
                 customSplitSection.style.display = 'none';
             } else {
-                alert('请填写完整的项目信息');
+                alert('請填寫完整的項目信息');
             }
         }
 
-        // 打开编辑模态框
+        // 打開編輯模態框
         function openEditModal(index) {
             currentEditIndex = index;
             const expense = expenses[index];
@@ -953,7 +957,7 @@
             editItemAmount.value = expense.totalAmount;
             editItemPayer.value = expense.payer;
             
-            // 判断是平均分摊还是自定义
+            // 判斷是平均分攤還是自定義
             const amounts = Object.values(expense.splits);
             const isEqualSplit = amounts.length === participants.length && 
                                 new Set(amounts.map(a => a.toFixed(2))).size === 1;
@@ -970,12 +974,12 @@
             editModal.style.display = 'flex';
         }
 
-        // 关闭模态框
+        // 關閉模態框
         function closeModal() {
             editModal.style.display = 'none';
         }
 
-        // 保存编辑
+        // 保存編輯
         function saveEdit() {
             if (currentEditIndex === -1) return;
             
@@ -987,10 +991,10 @@
                 let splits = {};
                 
                 if (editSplitMethod.value === 'equal') {
-                    // 平均分摊
+                    // 平均分攤
                     const perPerson = totalAmount / participants.length;
                     participants.forEach((participant, index) => {
-                        // 处理小数点精度问题，最后一个人承担余数
+                        // 處理小數點精度問題，最後一個人承擔餘數
                         if (index === participants.length - 1) {
                             splits[participant] = totalAmount - (perPerson * (participants.length - 1));
                         } else {
@@ -998,7 +1002,7 @@
                         }
                     });
                 } else {
-                    // 自定义分摊
+                    // 自定義分攤
                     const inputs = document.querySelectorAll('.edit-custom-split-input');
                     let customTotal = 0;
                     
@@ -1009,9 +1013,9 @@
                         customTotal += amount;
                     });
                     
-                    // 检查自定义金额总和是否等于总金额
+                    // 檢查自定義金額總和是否等於總金額
                     if (Math.abs(customTotal - totalAmount) > 0.01) {
-                        alert(`自定义分摊金额总和 (${customTotal.toFixed(2)}) 与总金额 (${totalAmount.toFixed(2)}) 不一致！`);
+                        alert(`自定義分攤金額總和 (${customTotal.toFixed(2)}) 與總金額 (${totalAmount.toFixed(2)}) 不一致！`);
                         return;
                     }
                 }
@@ -1028,13 +1032,13 @@
                 updateSummary();
                 closeModal();
             } else {
-                alert('请填写完整的项目信息');
+                alert('請填寫完整的項目信息');
             }
         }
 
-        // 删除费用
+        // 刪除費用
         function deleteExpense(index) {
-            if (confirm(`确定要删除 "${expenses[index].item}" 项目吗？`)) {
+            if (confirm(`確定要刪除 "${expenses[index].item}" 項目嗎？`)) {
                 expenses.splice(index, 1);
                 saveToLocalStorage();
                 renderExpenseTable();
@@ -1042,25 +1046,25 @@
             }
         }
 
-        // 计算结算信息
+        // 計算結算信息
         function calculateSettlements() {
             const settlements = {};
             
-            // 初始化每个人的应付和已付金额
+            // 初始化每個人的應付和已付金額
             participants.forEach(participant => {
                 settlements[participant] = {
-                    shouldPay: 0,   // 应付总额
-                    paid: 0,        // 已付总额
-                    balance: 0      // 结算金额 (已付 - 应付)
+                    shouldPay: 0,   // 應付總額
+                    paid: 0,        // 已付總額
+                    balance: 0      // 結算金額 (已付 - 應付)
                 };
             });
             
-            // 计算每个人的应付和已付金额
+            // 計算每個人的應付和已付金額
             expenses.forEach(expense => {
-                // 累加支付者的已付金额
+                // 累加支付者的已付金額
                 settlements[expense.payer].paid += expense.totalAmount;
                 
-                // 累加每个人的应付金额
+                // 累加每個人的應付金額
                 Object.entries(expense.splits).forEach(([person, amount]) => {
                     if (settlements[person]) {
                         settlements[person].shouldPay += amount;
@@ -1068,7 +1072,7 @@
                 });
             });
             
-            // 计算每个人的结算金额
+            // 計算每個人的結算金額
             participants.forEach(participant => {
                 settlements[participant].balance = settlements[participant].paid - settlements[participant].shouldPay;
             });
@@ -1076,54 +1080,54 @@
             return settlements;
         }
 
-        // 生成结算详情
+        // 生成結算詳情
         function generateSettlementDetails(settlements) {
             let detailsHTML = '';
             let totalPending = 0;
             
             Object.entries(settlements).forEach(([person, data]) => {
                 if (data.balance > 0) {
-                    detailsHTML += `<div class="settlement-item"><span>${person} 应收:</span> <span class="settlement-positive">¥${data.balance.toFixed(2)}</span></div>`;
+                    detailsHTML += `<div class="settlement-item"><span>${person} 應收:</span> <span class="settlement-positive">¥${data.balance.toFixed(2)}</span></div>`;
                     totalPending += data.balance;
                 } else if (data.balance < 0) {
-                    detailsHTML += `<div class="settlement-item"><span>${person} 应付:</span> <span class="settlement-negative">¥${Math.abs(data.balance).toFixed(2)}</span></div>`;
+                    detailsHTML += `<div class="settlement-item"><span>${person} 應付:</span> <span class="settlement-negative">¥${Math.abs(data.balance).toFixed(2)}</span></div>`;
                 }
             });
             
             pendingAmountElement.textContent = `¥${totalPending.toFixed(2)}`;
-            settlementDetails.innerHTML = detailsHTML || '<div class="settlement-item">无需结算</div>';
+            settlementDetails.innerHTML = detailsHTML || '<div class="settlement-item">無需結算</div>';
         }
 
-        // 渲染结算表格
+        // 渲染結算表格
         function renderSettlementTable(settlements) {
             settlementTableBody.innerHTML = '';
             
             Object.entries(settlements).forEach(([person, data]) => {
                 const row = document.createElement('tr');
                 
-                // 参与者列
+                // 參與者列
                 const personCell = document.createElement('td');
                 personCell.textContent = person;
                 row.appendChild(personCell);
                 
-                // 应付总额列
+                // 應付總額列
                 const shouldPayCell = document.createElement('td');
                 shouldPayCell.textContent = `¥${data.shouldPay.toFixed(2)}`;
                 row.appendChild(shouldPayCell);
                 
-                // 已付总额列
+                // 已付總額列
                 const paidCell = document.createElement('td');
                 paidCell.textContent = `¥${data.paid.toFixed(2)}`;
                 row.appendChild(paidCell);
                 
-                // 结算金额列
+                // 結算金額列
                 const balanceCell = document.createElement('td');
                 if (data.balance > 0) {
-                    balanceCell.innerHTML = `<span class="settlement-positive">应收 ¥${data.balance.toFixed(2)}</span>`;
+                    balanceCell.innerHTML = `<span class="settlement-positive">應收 ¥${data.balance.toFixed(2)}</span>`;
                 } else if (data.balance < 0) {
-                    balanceCell.innerHTML = `<span class="settlement-negative">应付 ¥${Math.abs(data.balance).toFixed(2)}</span>`;
+                    balanceCell.innerHTML = `<span class="settlement-negative">應付 ¥${Math.abs(data.balance).toFixed(2)}</span>`;
                 } else {
-                    balanceCell.textContent = '已结清';
+                    balanceCell.textContent = '已結清';
                 }
                 row.appendChild(balanceCell);
                 
@@ -1133,30 +1137,30 @@
 
         // 更新摘要信息
         function updateSummary() {
-            // 计算总支出
+            // 計算總支出
             const total = expenses.reduce((sum, expense) => sum + expense.totalAmount, 0);
             totalAmountElement.textContent = `¥${total.toFixed(2)}`;
             
-            // 更新参与人数
+            // 更新參與人數
             participantsCountElement.textContent = `${participants.length}人`;
             
-            // 计算结算信息
+            // 計算結算信息
             const settlements = calculateSettlements();
             
-            // 生成结算详情
+            // 生成結算詳情
             generateSettlementDetails(settlements);
             
-            // 渲染结算表格
+            // 渲染結算表格
             renderSettlementTable(settlements);
         }
 
-        // 保存到本地存储
+        // 保存到本地存儲
         function saveToLocalStorage() {
             localStorage.setItem('billSplitter_participants', JSON.stringify(participants));
             localStorage.setItem('billSplitter_expenses', JSON.stringify(expenses));
         }
 
-        // 从本地存储加载
+        // 從本地存儲加載
         function loadFromLocalStorage() {
             const savedParticipants = localStorage.getItem('billSplitter_participants');
             const savedExpenses = localStorage.getItem('billSplitter_expenses');
