@@ -100,6 +100,27 @@
             color: #2c3e50;
         }
         
+        .settlement-details {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #ddd;
+        }
+        
+        .settlement-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .settlement-positive {
+            color: #27ae60;
+        }
+        
+        .settlement-negative {
+            color: #e74c3c;
+        }
+        
         .expense-table {
             width: 100%;
             border-collapse: collapse;
@@ -270,7 +291,7 @@
         }
         
         .add-participant {
-            background-color: #3498db;
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
             color: white;
             border: none;
             padding: 12px 25px;
@@ -285,7 +306,6 @@
         .add-participant:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(75, 108, 183, 0.3);
-            background-color: #2980b9;
         }
 
         .return-button {
@@ -299,6 +319,7 @@
             font-weight: 500;
             transition: all 0.3s;
             margin-top: 20px;
+            margin-right: 10px;
         }
         
         .return-button:hover {
@@ -325,6 +346,43 @@
             box-shadow: 0 4px 12px rgba(75, 108, 183, 0.3);
         }
         
+        /* 结算表格样式 */
+        .settlement-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .settlement-table th, .settlement-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .settlement-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .settlement-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .settlement-positive {
+            color: #27ae60;
+            font-weight: 500;
+        }
+        
+        .settlement-negative {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+        
         /* 响应式设计 */
         @media (max-width: 768px) {
             .form-grid {
@@ -335,13 +393,26 @@
                 grid-template-columns: 1fr;
             }
             
-            .expense-table {
+            .expense-table, .settlement-table {
                 font-size: 14px;
             }
             
             .expense-table th, 
-            .expense-table td {
-                padding: 12px 8px;
+            .expense-table td,
+            .settlement-table th,
+            .settlement-table td {
+                padding: 10px 8px;
+            }
+            
+            .settings-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .return-button, .save-settings {
+                margin-top: 10px;
+                width: 100%;
             }
         }
         
@@ -364,8 +435,10 @@
             padding: 25px;
             border-radius: 12px;
             width: 90%;
-            max-width: 500px;
+            max-width: 600px;
             box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            max-height: 80vh;
+            overflow-y: auto;
         }
         
         .modal-header {
@@ -392,6 +465,12 @@
         .fade-in {
             animation: fadeIn 0.3s ease-in-out;
         }
+        
+        .settings-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
     </style>
 </head>
 <body>
@@ -413,6 +492,9 @@
                 <div class="card">
                     <h3>待结算</h3>
                     <div class="amount" id="pendingAmount">¥0.00</div>
+                    <div class="settlement-details" id="settlementDetails">
+                        <!-- 结算详情将通过JavaScript动态生成 -->
+                    </div>
                 </div>
                 <div class="card">
                     <h3>参与人数</h3>
@@ -420,6 +502,22 @@
                 </div>
             </div>
 
+            <h3><i class="fas fa-money-bill-wave"></i> 结算详情</h3>
+            <table class="settlement-table">
+                <thead>
+                    <tr>
+                        <th>参与者</th>
+                        <th>应付总额</th>
+                        <th>已付总额</th>
+                        <th>结算金额</th>
+                    </tr>
+                </thead>
+                <tbody id="settlementTableBody">
+                    <!-- 结算表格内容将通过JavaScript动态生成 -->
+                </tbody>
+            </table>
+
+            <h3><i class="fas fa-list"></i> 账单明细</h3>
             <table class="expense-table">
                 <thead>
                     <tr>
@@ -479,7 +577,7 @@
                 <div id="participantsList" class="participants-list">
                     <!-- 参与人员列表将通过JavaScript动态生成 -->
                 </div>
-                <button id="addParticipantBtn" class="nav-button add-participant">
+                <button id="addParticipantBtn" class="add-participant">
                     <i class="fas fa-plus"></i> 添加人员
                 </button>
                 <div class="settings-buttons">
@@ -564,6 +662,8 @@
         const editSplitMethod = document.getElementById('editSplitMethod');
         const editCustomSplitSection = document.getElementById('editCustomSplitSection');
         const editCustomSplitContainer = document.getElementById('editCustomSplitContainer');
+        const settlementTableBody = document.getElementById('settlementTableBody');
+        const settlementDetails = document.getElementById('settlementDetails');
 
         let currentEditIndex = -1;
 
@@ -599,7 +699,6 @@
 
         // 显示设置页面
         function showSettingsPage() {
-            console.log('showSettingsPage');
             mainPage.classList.remove('active');
             settingsPage.classList.add('active');
             renderParticipantsSettings();
@@ -943,18 +1042,112 @@
             }
         }
 
+        // 计算结算信息
+        function calculateSettlements() {
+            const settlements = {};
+            
+            // 初始化每个人的应付和已付金额
+            participants.forEach(participant => {
+                settlements[participant] = {
+                    shouldPay: 0,   // 应付总额
+                    paid: 0,        // 已付总额
+                    balance: 0      // 结算金额 (已付 - 应付)
+                };
+            });
+            
+            // 计算每个人的应付和已付金额
+            expenses.forEach(expense => {
+                // 累加支付者的已付金额
+                settlements[expense.payer].paid += expense.totalAmount;
+                
+                // 累加每个人的应付金额
+                Object.entries(expense.splits).forEach(([person, amount]) => {
+                    if (settlements[person]) {
+                        settlements[person].shouldPay += amount;
+                    }
+                });
+            });
+            
+            // 计算每个人的结算金额
+            participants.forEach(participant => {
+                settlements[participant].balance = settlements[participant].paid - settlements[participant].shouldPay;
+            });
+            
+            return settlements;
+        }
+
+        // 生成结算详情
+        function generateSettlementDetails(settlements) {
+            let detailsHTML = '';
+            let totalPending = 0;
+            
+            Object.entries(settlements).forEach(([person, data]) => {
+                if (data.balance > 0) {
+                    detailsHTML += `<div class="settlement-item"><span>${person} 应收:</span> <span class="settlement-positive">¥${data.balance.toFixed(2)}</span></div>`;
+                    totalPending += data.balance;
+                } else if (data.balance < 0) {
+                    detailsHTML += `<div class="settlement-item"><span>${person} 应付:</span> <span class="settlement-negative">¥${Math.abs(data.balance).toFixed(2)}</span></div>`;
+                }
+            });
+            
+            pendingAmountElement.textContent = `¥${totalPending.toFixed(2)}`;
+            settlementDetails.innerHTML = detailsHTML || '<div class="settlement-item">无需结算</div>';
+        }
+
+        // 渲染结算表格
+        function renderSettlementTable(settlements) {
+            settlementTableBody.innerHTML = '';
+            
+            Object.entries(settlements).forEach(([person, data]) => {
+                const row = document.createElement('tr');
+                
+                // 参与者列
+                const personCell = document.createElement('td');
+                personCell.textContent = person;
+                row.appendChild(personCell);
+                
+                // 应付总额列
+                const shouldPayCell = document.createElement('td');
+                shouldPayCell.textContent = `¥${data.shouldPay.toFixed(2)}`;
+                row.appendChild(shouldPayCell);
+                
+                // 已付总额列
+                const paidCell = document.createElement('td');
+                paidCell.textContent = `¥${data.paid.toFixed(2)}`;
+                row.appendChild(paidCell);
+                
+                // 结算金额列
+                const balanceCell = document.createElement('td');
+                if (data.balance > 0) {
+                    balanceCell.innerHTML = `<span class="settlement-positive">应收 ¥${data.balance.toFixed(2)}</span>`;
+                } else if (data.balance < 0) {
+                    balanceCell.innerHTML = `<span class="settlement-negative">应付 ¥${Math.abs(data.balance).toFixed(2)}</span>`;
+                } else {
+                    balanceCell.textContent = '已结清';
+                }
+                row.appendChild(balanceCell);
+                
+                settlementTableBody.appendChild(row);
+            });
+        }
+
         // 更新摘要信息
         function updateSummary() {
             // 计算总支出
             const total = expenses.reduce((sum, expense) => sum + expense.totalAmount, 0);
             totalAmountElement.textContent = `¥${total.toFixed(2)}`;
             
-            // 计算待结算金额（简化版：总支出/参与人数）
-            const pending = total / participants.length;
-            pendingAmountElement.textContent = `¥${pending.toFixed(2)}`;
-            
             // 更新参与人数
             participantsCountElement.textContent = `${participants.length}人`;
+            
+            // 计算结算信息
+            const settlements = calculateSettlements();
+            
+            // 生成结算详情
+            generateSettlementDetails(settlements);
+            
+            // 渲染结算表格
+            renderSettlementTable(settlements);
         }
 
         // 保存到本地存储
