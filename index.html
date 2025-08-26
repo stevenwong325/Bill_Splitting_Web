@@ -874,6 +874,7 @@
         function toggleEditCustomSplitSection() {
             if (editSplitMethod.value === 'custom') {
                 editCustomSplitSection.style.display = 'block';
+                renderEditCustomSplitInputs_equal();
             } else {
                 editCustomSplitSection.style.display = 'none';
             }
@@ -907,6 +908,21 @@
                     <label>${participant}:</label>
                     <input type="number" class="form-input edit-custom-split-input" data-person="${participant}" 
                            value="${amount.toFixed(2)}" step="0.01">
+                `;
+                editCustomSplitContainer.appendChild(splitItem);
+            });
+        }
+
+        function renderEditCustomSplitInputs_equal() {
+            editCustomSplitContainer.innerHTML = '';
+            
+            participants.forEach(participant => {
+                const splitItem = document.createElement('div');
+                splitItem.className = 'split-item';
+                splitItem.innerHTML = `
+                    <label>${participant}:</label>
+                    <input type="number" class="form-input edit-custom-split-input" data-person="${participant}" 
+                           placeholder="0.00" step="0.01">
                 `;
                 editCustomSplitContainer.appendChild(splitItem);
             });
