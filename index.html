@@ -345,6 +345,25 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(75, 108, 183, 0.3);
         }
+
+        .clear-button {
+            background: linear-gradient(135deg, #e31b1b 0%, #7d2e2e 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-top: 20px;
+            margin-left: auto;
+        }
+        
+        .clear-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(75, 108, 183, 0.3);
+        }
         
         /* 結算表格樣式 */
         .settlement-table {
@@ -588,7 +607,12 @@
                     <button id="returnBtn" class="return-button">
                         <i class="fas fa-arrow-left"></i> 返回
                     </button>
-                    <button id="saveSettingsBtn" class="save-settings">保存設置</button>
+                    <button id="saveSettingsBtn" class="save-settings">
+                        <i class="fas fa-save"></i> 保存設置
+                    </button>
+                    <button class="btn btn-danger clear-button" onclick="confirmClearData()" style="margin-left: auto;">
+                        <i class="fas fa-trash-alt"></i> 清除所有數據
+                    </button>
                 </div>
             </div>
         </div>
@@ -1158,6 +1182,26 @@
         function saveToLocalStorage() {
             localStorage.setItem('billSplitter_participants', JSON.stringify(participants));
             localStorage.setItem('billSplitter_expenses', JSON.stringify(expenses));
+        }
+        
+        // 確認清除所有數據
+        function confirmClearData() {
+            if (confirm('確定要清除所有數據嗎？此操作無法復原！')) {
+                // 清除本地存儲
+                localStorage.removeItem('billSplitter_participants');
+                localStorage.removeItem('billSplitter_expenses');
+                
+                // 重置數據
+                participants = [];
+                expenses = [];
+                
+                // 重新渲染界面
+                renderParticipantsSettings();
+                renderExpenseTable();
+                updateSummary();
+                
+                alert('所有數據已清除！');
+            }
         }
 
         // 從本地存儲加載
